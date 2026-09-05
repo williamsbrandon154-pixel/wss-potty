@@ -332,12 +332,14 @@
       <div>Site</div><div>${u.sites ? `<a href="#/site/${u.sites.id}">${esc(u.sites.customer_name)}</a><div class="muted">${esc([u.sites.address, u.sites.city].filter(Boolean).join(', '))}</div>` : '—'}</div>
       <div>Notes</div><div>${esc(u.notes || '—')}</div></div>
       ${u.tag_uid ? `<button class="btn" onclick="location.hash='#/t/${u.tag_uid}'">Record an action for this unit</button>` : ''}
+      ${u.tag_uid ? `<button id="btnTagLink" class="btn ghost">Copy this potty's tag link</button><p class="muted" style="word-break:break-all"><small>${esc(TAG_URL + '/#/t/' + u.tag_uid)}</small></p>` : ''}
       <details><summary>Edit unit</summary>
         <label>Type<select id="etype">${opts}</select></label>
         <label>Owned by<select id="eown"><option value="company"${u.owned_by === 'company' ? ' selected' : ''}>Company</option><option value="customer"${u.owned_by === 'customer' ? ' selected' : ''}>Customer-owned</option></select></label>
         <label>Notes<textarea id="enotes">${esc(u.notes || '')}</textarea></label>
         <button id="btnSave" class="btn">Save</button></details></div>
       <div class="card"><h3>History</h3><ul class="list hist">${(hist || []).map((h) => `<li><div class="t"><div><b>${esc(ACTION_LABEL[h.action] || h.action)}</b>${h.sites ? ' — ' + esc(h.sites.customer_name) : ''}</div><div class="s">${esc(h.driver_name || '')} · ${when(h.created_at)}${h.note ? ' · ' + esc(h.note) : ''}</div></div></li>`).join('') || '<li><div class="t muted">No scans yet.</div></li>'}</ul></div>`);
+    if ($('btnTagLink')) $('btnTagLink').onclick = async () => { try { await navigator.clipboard.writeText(TAG_URL + '/#/t/' + u.tag_uid); toast('Tag link copied'); } catch (e) { toast('Copy failed', true); } };
     $('btnSave').onclick = async () => {
       const { error: e } = await sb.from('units').update({ unit_type: $('etype').value, owned_by: $('eown').value, notes: $('enotes').value.trim() || null }).eq('id', u.id);
       if (e) toast(e.message, true); else { toast('Saved'); renderUnit(id); }
