@@ -1,0 +1,9 @@
+{
+  "name": "Williams & Sons Potty Tracker",
+  "short_name": "Potty Tracker",
+  "start_url": "./#/board",
+  "display": "standalone",
+  "background_color": "#f3f5f8",
+  "theme_color": "#1e4d8c",
+  "icons": [{ "src": "icon.svg", "sizes": "any", "type": "image/svg+xml" }]
+}
