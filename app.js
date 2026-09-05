@@ -10,6 +10,8 @@
   const sb = window.supabase.createClient(CFG.supabaseUrl, CFG.supabaseAnonKey);
   // where the app lives, including any sub-folder (GitHub Pages serves it under /wss-potty/) — this is what gets written onto the tags
   const APP_URL = (CFG.appUrl || (location.origin + location.pathname.replace(/[^/]*$/, ''))).replace(/\/$/, '');
+  // what actually gets written onto a tag: a permanent address that forwards to the app, so moving the app never means re-writing 128 tags
+  const TAG_URL = (CFG.tagUrl || APP_URL).replace(/\/$/, '');
   const $ = (id) => document.getElementById(id);
 
   // ---------- helpers ----------
@@ -387,7 +389,7 @@
           const uid = normUid(ev.serialNumber);
           if (!uid) { m.textContent = 'No serial number on this tag.'; return; }
           m.textContent = 'Tag ' + uid + ' — writing app link…';
-          try { await new NDEFReader().write({ records: [{ recordType: 'url', data: APP_URL + '/#/t/' + uid }] }); m.textContent = 'Programmed ✓ opening…'; }
+          try { await new NDEFReader().write({ records: [{ recordType: 'url', data: TAG_URL + '/#/t/' + uid }] }); m.textContent = 'Programmed ✓ opening…'; }
           catch (we) { m.textContent = 'Read OK (write skipped: ' + we.message + ') — opening…'; }
           setTimeout(() => { location.hash = '#/t/' + uid; }, 600);
         };

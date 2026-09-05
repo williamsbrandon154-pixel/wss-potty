@@ -3,5 +3,7 @@
 window.WSS_CONFIG = {
   supabaseUrl: "https://ngosolqoxngakpwmeqsg.supabase.co",
   supabaseAnonKey: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5nb3NvbHFveG5nYWtwd21lcXNnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODg1NzU4MDUsImV4cCI6MjEwNDE1MTgwNX0.J4RaVGUDv9xRfkVBhcEG7WbNywKxyz_S3WLj6-7Z6zY",
-  appUrl: "" // empty = use whatever address the app is served from
+  appUrl: "", // empty = use whatever address the app is served from
+  // the permanent address written onto NFC tags; it forwards to the app wherever it lives (a Supabase function we control)
+  tagUrl: "https://ngosolqoxngakpwmeqsg.supabase.co/functions/v1/potty"
 };
